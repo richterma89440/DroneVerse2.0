@@ -10,7 +10,6 @@ from keyboarddetection import run_keyboard_control
 import userinterface
 
 from collisiondetection import run_collision_detection, collision_status
-
 from print_dronecontrol import PrintDroneController
 from tello_dronecontrol import TelloDroneController
 from quadcopter_dronecontrol import QuadcopterDroneController
@@ -21,7 +20,7 @@ drone_controller = None
 
 max_size_gestures = 15
 max_size_osc = 300
-max_size_keyboard = 60
+max_size_keyboard = 1
 directions_gestures = []
 directions_osc = []
 directions_keyboard = []
@@ -109,11 +108,11 @@ def update_collision_status(status):
 
 def send_direction_to_drone(filtered_direction):
     global drone_controller
-
-    drone_controller.speed_left_right = 0
-    drone_controller.speed_up_down = 0
-    drone_controller.speed_forward_back = 0
-    drone_controller.yaw_speed = 0
+    if chosen_detection == "gesture" and chosen_control == "tello":
+        drone_controller.speed_left_right = 0
+        drone_controller.speed_up_down = 0
+        drone_controller.speed_forward_back = 0
+        drone_controller.yaw_speed = 0
 
     # Überprüfen Sie, ob eine Kollision in der gewünschten Richtung vorliegt
     if filtered_direction == "up":  # and not collision_status["up"]:
@@ -171,10 +170,11 @@ if __name__ == "__main__":
         print(f"Chosen Detection: {chosen_detection}")
         print(f"Chosen Control: {chosen_control}")
 
-        
-        
         detection_thread = Thread(target=run_detection_and_control)
         detection_thread.start()
         detection_thread.join()
+        
+        if drone_controller:
+            drone_controller.land()
         
         start_user_interface()
