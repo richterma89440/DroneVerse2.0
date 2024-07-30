@@ -45,7 +45,7 @@ def run_keyboard_control(direction_callback):
                     keys_pressed["up"] = True
                 elif event.key == pygame.K_DOWN:
                     keys_pressed["down"] = True
-                elif event.key == pygame.K_ESCAPE:
+                elif event.key == pygame.K_q:
                     pygame.quit()
                     
 

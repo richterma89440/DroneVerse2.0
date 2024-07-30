@@ -141,6 +141,7 @@ def start_user_interface():
     app.exec_()
 
 def run_detection_and_control():
+    global drone_controller
     if chosen_control == "tello":
         drone_controller = TelloDroneController()
     elif chosen_control == "quadcopter":
@@ -162,7 +163,6 @@ def run_detection_and_control():
         return
 
     run_collision_detection(update_collision_status)
-    start_user_interface()
 
 if __name__ == "__main__":
     while True:
@@ -176,5 +176,5 @@ if __name__ == "__main__":
         detection_thread = Thread(target=run_detection_and_control)
         detection_thread.start()
         detection_thread.join()
-
+        
         start_user_interface()
