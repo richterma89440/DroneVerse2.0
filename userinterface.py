@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
     QRadioButton,
     QButtonGroup,
     QCheckBox,
+    QComboBox,
 )
 from PyQt5.QtGui import QPixmap, QPalette, QBrush, QFont
 from PyQt5.QtCore import Qt
@@ -22,7 +23,7 @@ class UserInterface(QWidget):
         self.chosen_control = None
 
         self.init_ui()
-
+    
     def init_ui(self):
         self.setWindowTitle("Drone Control Interface")
         self.setGeometry(100, 100, 1920, 1080)  # Querformat Vollbild
@@ -188,6 +189,25 @@ class UserInterface(QWidget):
 
         main_layout.addLayout(control_section)
 
+        
+
+        # Label und ComboBox für die Geschwindigkeitsauswahl
+        speed_layout = QVBoxLayout()
+        speed_layout.setSpacing(5)
+        self.speed_label = QLabel("Wählen Sie den Schwierigkeitsgrad:")
+        self.speed_label.setStyleSheet("color: white;")
+        self.speed_label.setFont(QFont("Arial", 40, QFont.Bold))
+        self.speed_combo = QComboBox()
+        self.speed_combo.addItems(["Level 1", "Level 2", "Level 3"])
+        self.speed_combo.currentIndexChanged.connect(self.update_speed)
+        self.speed_combo.setFixedHeight(50)  # Set a fixed height for the combo box
+        self.speed_combo.setFont(QFont("Arial", 30, QFont.Bold))
+
+        speed_layout.addWidget(self.speed_label)
+        speed_layout.addWidget(self.speed_combo)
+
+        main_layout.addLayout(speed_layout)
+        
         ## START BUTTONS
         buttons_layout = QHBoxLayout()
         start_button = QPushButton("Start")
@@ -205,6 +225,18 @@ class UserInterface(QWidget):
 
         self.setLayout(main_layout)
 
+    def update_speed(self):
+        speed_level = self.speed_combo.currentIndex()
+        if speed_level == 0:
+            self.speed = 20
+        elif speed_level == 1:
+            self.speed = 30
+        elif speed_level == 2:
+            self.speed = 40
+    
+    def get_speed(self):     
+        return self.speed
+    
     def close_ui(self):
         self.close()
         

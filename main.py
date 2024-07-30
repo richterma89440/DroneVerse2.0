@@ -150,7 +150,13 @@ def run_detection_and_control():
     else:
         print("Invalid control method.")
         return
-
+    
+    
+    #app = QApplication(sys.argv)
+    #app.exec_()
+    #speed = userinterface.UserInterface().get_speed()  # Updated to call the method on an instance
+    #drone_controller.set_speed(speed)
+    
     if chosen_detection == "keyboard":
         run_keyboard_control(direction_from_keyboard)
     elif chosen_detection == "osc":

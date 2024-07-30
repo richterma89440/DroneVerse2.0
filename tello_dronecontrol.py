@@ -28,8 +28,12 @@ class TelloDroneController:
 
         self.takeoff()  # Drohne hebt ab, sobald die Instanz erstellt wird
 
-        self.speed = 30  # Geschwindigkeit der Drohne
+        self.speed = 20  # Geschwindigkeit der Drohne
 
+    def set_speed(self, speed):
+        self.speed = speed
+        print(f"Speed set to {speed}")
+        
     def update_movement(self):
         self.drone.send_rc_control(
             self.speed_left_right,
